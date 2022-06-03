@@ -7,7 +7,6 @@ use App\Http\Requests\Connection\IndexConnectionRequest;
 use App\Http\Requests\Connection\StoreConnectionRequest;
 use App\Http\Resources\Connection\StoreConnectionResource;
 use App\Models\Connection;
-use App\Models\User;
 use App\Services\Connection\Common;
 use App\Services\Connection\Index;
 use Illuminate\Http\JsonResponse;
@@ -72,7 +71,6 @@ class ConnectionController extends Controller
     /**
      * Get connection type's counts.
      *
-     * @param User $user
      * @return JsonResponse
      */
     public function countConnectionsByType()
@@ -105,16 +103,16 @@ class ConnectionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param $user_to_id
+     * @param $userToId
      * @return JsonResponse
      */
-    public function destroy($user_to_id)
+    public function destroy($userToId)
     {
         Connection::where([
             'user_from_id' => auth()->id(),
-            'user_to_id' => $user_to_id
+            'user_to_id' => $userToId
         ])->orWhere([
-            'user_from_id' => $user_to_id,
+            'user_from_id' => $userToId,
             'user_to_id' => auth()->id()
         ])->first()->delete();
 
